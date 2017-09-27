@@ -1,0 +1,24 @@
+######################################################################
+# Submit via
+# > SETSHELL grid
+# > qsub -l q_gpu minimal.job
+######################################################################
+
+# Args:
+model=$1
+input=$2
+output=$3
+
+echo "Start to run on $(hostname) at $(date +'%F %T')"
+echo "CUDA_VISIBLE_DEVICES ${CUDA_VISIBLE_DEVICES}"
+nvidia-smi
+
+echo
+
+python $NMTDIR/translate.py -gpu 0 \
+-model $model -src $input -replace_unk -verbose -output $output
+
+echo "End at $(date +'%F %T')"
+
+######################################################################
+
